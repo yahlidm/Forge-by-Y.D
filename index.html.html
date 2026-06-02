@@ -1,0 +1,1582 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#000">
+<title>FORGE — Y.D</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════════════
+   FORGE v5 — Dark Gold · Frosted Glass · Premium
+═══════════════════════════════════════════════════════ */
+:root{
+  --a:#c9a84c;          /* amber gold */
+  --a2:#e8c87a;         /* light gold */
+  --a3:#f5e0a0;         /* pale gold highlight */
+  --grad:linear-gradient(135deg,#c9a84c 0%,#e8c87a 100%);
+  --grad-glow:linear-gradient(135deg,#c9a84c88 0%,#e8c87a44 100%);
+  --bg:#09080c;          /* near-black with warm undertone */
+  --surface:rgba(255,252,240,.045);
+  --surface2:rgba(255,252,240,.07);
+  --border:rgba(255,252,240,.1);
+  --border2:rgba(201,168,76,.25);
+  --text:#f5f0e8;
+  --text2:#c8bfa8;
+  --dim:#7a7060;
+  --dim2:#4a4438;
+  --red:#f87171;
+  --font:'Sora',sans-serif;
+  --blur:blur(24px);
+  --blur-sm:blur(14px);
+  --radius:20px;
+  --radius-sm:14px;
+  --radius-xs:10px;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;touch-action:pan-y;}
+html,body{height:100%;overflow:hidden;}
+body{
+  background:var(--bg);color:var(--text);
+  font-family:var(--font);font-weight:400;
+  transition:background .6s ease;
+}
+
+/* ── VANTA BG ── */
+#vbg{position:fixed;inset:0;z-index:0;}
+.vov{
+  position:fixed;inset:0;z-index:1;pointer-events:none;
+  background:rgba(9,8,12,.62);
+}
+/* warm ambient glow */
+.ambient{
+  position:fixed;inset:0;z-index:1;pointer-events:none;
+  background:
+    radial-gradient(ellipse 60% 40% at 20% 10%, rgba(201,168,76,.06) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 50% at 80% 90%, rgba(201,168,76,.04) 0%, transparent 70%);
+}
+
+/* ── FROSTED GLASS BASE ── */
+.glass{
+  background:linear-gradient(135deg, rgba(255,252,240,.065) 0%, rgba(255,252,240,.025) 100%);
+  backdrop-filter:var(--blur);
+  -webkit-backdrop-filter:var(--blur);
+  border:1px solid var(--border);
+  box-shadow:
+    inset 0 1px 0 rgba(255,252,240,.1),
+    inset 0 -1px 0 rgba(0,0,0,.2),
+    0 4px 24px rgba(0,0,0,.3);
+}
+.glass-sm{
+  background:linear-gradient(135deg, rgba(255,252,240,.07) 0%, rgba(255,252,240,.03) 100%);
+  backdrop-filter:var(--blur-sm);
+  -webkit-backdrop-filter:var(--blur-sm);
+  border:1px solid var(--border);
+  box-shadow:inset 0 1px 0 rgba(255,252,240,.08),0 2px 12px rgba(0,0,0,.25);
+}
+
+/* ── LIQUID RIM (gold version) ── */
+.lr{position:relative;}
+.lr::before{
+  content:"";position:absolute;inset:0;padding:1px;border-radius:inherit;
+  background:linear-gradient(160deg,
+    rgba(255,252,240,.45) 0%,
+    rgba(201,168,76,.2) 25%,
+    transparent 50%,
+    rgba(201,168,76,.1) 75%,
+    rgba(255,252,240,.35) 100%);
+  -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+  -webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;z-index:1;
+}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@keyframes fadeScale{from{opacity:0;transform:scale(.97)}to{opacity:1;transform:none}}
+@keyframes cardIn{from{opacity:0;transform:translateY(14px) scale(.98)}to{opacity:1;transform:none}}
+@keyframes slideUp{from{transform:translateY(100%)}to{transform:none}}
+@keyframes prPop{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:none}}
+@keyframes pulseGold{0%,100%{box-shadow:0 0 28px rgba(201,168,76,.35)}50%{box-shadow:0 0 52px rgba(201,168,76,.65)}}
+@keyframes shimmer{from{background-position:200% center}to{background-position:-200% center}}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ── FADE TRANSITIONS ── */
+.fade-panel{
+  animation:fadeIn .38s cubic-bezier(.4,0,.2,1);
+}
+.fade-up{
+  animation:fadeUp .42s cubic-bezier(.22,1,.36,1);
+}
+.fade-scale{
+  animation:fadeScale .35s cubic-bezier(.22,1,.36,1);
+}
+
+/* ── SPLASH ── */
+#splash{
+  position:fixed;inset:0;z-index:9999;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;
+  background:var(--bg);
+  transition:opacity .7s cubic-bezier(.4,0,.2,1),transform .7s cubic-bezier(.4,0,.2,1);
+}
+#splash.hide{opacity:0;transform:scale(1.05);pointer-events:none;}
+.splash-icon{
+  width:84px;height:84px;border-radius:26px;
+  background:var(--grad);
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 0 56px rgba(201,168,76,.5),inset 0 2px 0 rgba(255,255,255,.3);
+  animation:pulseGold 2.2s ease-in-out infinite;
+}
+.splash-title{
+  font-size:38px;font-weight:800;letter-spacing:3px;
+  background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+}
+.splash-sub{font-size:11px;color:var(--dim);letter-spacing:3.5px;text-transform:uppercase;font-weight:500;}
+.splash-bar-wrap{width:150px;height:2px;background:rgba(255,255,255,.08);border-radius:99px;overflow:hidden;margin-top:6px;}
+.splash-bar{height:100%;width:0%;background:var(--grad);border-radius:99px;transition:width .05s linear;
+  box-shadow:0 0 8px rgba(201,168,76,.6);}
+
+/* ── APP SHELL ── */
+.app{position:relative;z-index:2;display:flex;flex-direction:column;height:100vh;height:100dvh;}
+.scroll{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;}
+.scroll::-webkit-scrollbar{width:2px;}
+.scroll::-webkit-scrollbar-thumb{background:rgba(201,168,76,.2);border-radius:99px;}
+
+/* ── HEADER ── */
+.hdr{
+  padding:calc(env(safe-area-inset-top,0px)+16px) 20px 14px;
+  display:flex;align-items:center;justify-content:space-between;flex-shrink:0;
+  background:linear-gradient(180deg,rgba(9,8,12,.9) 0%,rgba(9,8,12,.0) 100%);
+}
+.hdr-l{display:flex;align-items:center;gap:12px;}
+.hdr-icon{
+  width:42px;height:42px;border-radius:13px;
+  background:var(--grad);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  box-shadow:0 0 20px rgba(201,168,76,.45),inset 0 1px 0 rgba(255,255,255,.3);
+  transition:background .4s;
+}
+.hdr-name{
+  font-size:22px;font-weight:800;letter-spacing:-.3px;
+  background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+}
+.hdr-sub{font-size:10px;color:var(--dim);letter-spacing:1.5px;text-transform:uppercase;margin-top:2px;}
+.hdr-r{display:flex;align-items:center;gap:8px;}
+.badge-yd{
+  font-size:10px;font-weight:700;letter-spacing:2px;color:var(--a);
+  padding:5px 12px;border-radius:99px;
+  background:rgba(201,168,76,.1);
+  border:1px solid rgba(201,168,76,.3);
+  transition:color .3s,border-color .3s,background .3s;
+}
+.icon-btn{
+  width:40px;height:40px;border-radius:13px;
+  border:1px solid rgba(255,252,240,.1);
+  background:rgba(255,252,240,.05);
+  backdrop-filter:var(--blur-sm);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:.22s;color:var(--dim);
+}
+.icon-btn:active{transform:scale(.9);background:rgba(201,168,76,.12);}
+
+/* ── SUPER PANELS ── */
+.super-panel{
+  display:none;
+  opacity:0;
+  transition:opacity .38s cubic-bezier(.4,0,.2,1);
+}
+.super-panel.active{
+  display:block;
+  animation:fadeIn .38s cubic-bezier(.4,0,.2,1) forwards;
+}
+
+/* ── WORKOUT SUBTABS ── */
+.wtabs{
+  display:flex;gap:8px;padding:6px 18px 2px;
+}
+.wtab{
+  flex:1;padding:11px 4px;border-radius:var(--radius-sm);cursor:pointer;
+  border:1px solid var(--border);
+  background:var(--surface);
+  backdrop-filter:var(--blur-sm);
+  font-family:var(--font);font-size:12.5px;font-weight:700;
+  color:var(--dim);transition:all .28s cubic-bezier(.4,0,.2,1);text-align:center;
+}
+.wtab.active{
+  background:linear-gradient(135deg,rgba(201,168,76,.18),rgba(201,168,76,.06));
+  border-color:rgba(201,168,76,.4);
+  color:var(--a2);
+  box-shadow:0 0 16px rgba(201,168,76,.15),inset 0 1px 0 rgba(201,168,76,.2);
+}
+.wtab:active{transform:scale(.96);}
+
+/* ── PANELS ── */
+.panel{display:none;padding:6px 18px 140px;animation:fadeUp .42s cubic-bezier(.22,1,.36,1);}
+.panel.active{display:block;}
+
+/* ── WORKOUT HEAD ── */
+.whead{display:flex;align-items:center;gap:14px;padding:16px 0 12px;}
+.wbadge{
+  width:56px;height:56px;border-radius:18px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:28px;font-weight:800;color:var(--a2);
+  background:linear-gradient(135deg,rgba(201,168,76,.2),rgba(201,168,76,.06));
+  border:1px solid rgba(201,168,76,.3);
+  box-shadow:0 0 24px rgba(201,168,76,.12),inset 0 1px 0 rgba(201,168,76,.2);
+  transition:color .3s,background .3s;
+}
+.wtitle{font-size:20px;font-weight:800;letter-spacing:-.4px;color:var(--text);}
+.wfocus{font-size:12px;color:var(--dim);margin-top:4px;letter-spacing:.3px;}
+
+/* ── EXERCISE CARD — premium frosted glass ── */
+.ex{
+  background:linear-gradient(135deg, rgba(255,252,240,.06) 0%, rgba(255,252,240,.02) 100%);
+  border:1px solid rgba(255,252,240,.09);
+  border-radius:var(--radius);
+  padding:20px 18px 18px 16px;
+  margin-bottom:11px;
+  display:flex;align-items:center;gap:14px;
+  position:relative;overflow:hidden;
+  backdrop-filter:var(--blur);
+  -webkit-backdrop-filter:var(--blur);
+  box-shadow:
+    inset 0 1px 0 rgba(255,252,240,.09),
+    0 4px 28px rgba(0,0,0,.28);
+  cursor:pointer;
+  opacity:0;animation:cardIn .55s cubic-bezier(.22,1,.36,1) forwards;
+  transition:transform .2s cubic-bezier(.34,1.2,.64,1), border-color .25s, box-shadow .25s;
+}
+/* shimmer on hover/active for premium feel */
+.ex::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(105deg,transparent 40%,rgba(201,168,76,.06) 50%,transparent 60%);
+  background-size:200% 100%;
+  opacity:0;transition:opacity .3s;
+  pointer-events:none;
+}
+.ex:active{transform:scale(.975);}
+.ex:active::after{opacity:1;animation:shimmer .6s ease;}
+.ex:hover{border-color:rgba(201,168,76,.18);box-shadow:inset 0 1px 0 rgba(255,252,240,.12),0 6px 32px rgba(0,0,0,.35);}
+
+.ex .num{
+  width:32px;height:32px;border-radius:10px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:13px;font-weight:700;color:var(--dim);
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);
+}
+.ex .body{flex:1;min-width:0;}
+.ex .exname{font-weight:700;font-size:15.5px;line-height:1.3;color:var(--text);}
+.ex .exmeta{display:flex;align-items:center;gap:10px;margin-top:6px;}
+.ex .exscheme{font-size:12px;color:var(--dim);font-weight:500;}
+.ex .tap-hint{
+  font-size:10.5px;color:var(--a);opacity:.75;
+  display:flex;align-items:center;gap:4px;
+  background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.2);
+  padding:3px 8px;border-radius:99px;
+  transition:opacity .2s,background .2s;
+}
+.ex:hover .tap-hint{opacity:1;background:rgba(201,168,76,.18);}
+.ex .sets{
+  flex-shrink:0;font-size:28px;font-weight:800;
+  color:var(--a2);letter-spacing:-.5px;direction:ltr;
+  text-shadow:0 0 20px rgba(201,168,76,.4);
+  transition:color .3s,text-shadow .3s;
+}
+.ex.stretch{border-color:rgba(201,168,76,.22);}
+.ex.stretch::before{
+  content:"";position:absolute;right:0;top:0;bottom:0;width:3px;
+  background:var(--grad);border-radius:0 var(--radius) var(--radius) 0;
+  box-shadow:-2px 0 12px rgba(201,168,76,.3);
+  z-index:2;
+}
+.ex.stretch .sets{margin-top:18px;}
+.stag{
+  position:absolute;left:14px;top:12px;
+  font-size:9px;letter-spacing:.6px;font-weight:700;
+  color:var(--a2);
+  background:rgba(201,168,76,.12);
+  border:1px solid rgba(201,168,76,.28);
+  padding:3px 9px;border-radius:20px;
+  transition:color .3s;
+}
+
+/* ── SECTION HEADER ── */
+.shead{
+  font-size:10.5px;font-weight:700;color:var(--dim);
+  letter-spacing:2px;text-transform:uppercase;
+  margin:22px 0 12px;display:flex;align-items:center;gap:10px;
+}
+.shead::after{content:"";flex:1;height:1px;
+  background:linear-gradient(90deg,rgba(201,168,76,.2),transparent);}
+
+/* ── NOTE CARD ── */
+.nc{
+  background:linear-gradient(135deg,rgba(255,252,240,.06),rgba(255,252,240,.02));
+  border:1px solid var(--border);border-radius:var(--radius);
+  padding:18px 20px;margin-bottom:11px;
+  backdrop-filter:var(--blur);
+  box-shadow:inset 0 1px 0 rgba(255,252,240,.07),0 2px 16px rgba(0,0,0,.2);
+}
+.nc h3{font-size:14px;font-weight:700;color:var(--a2);margin-bottom:9px;
+  display:flex;align-items:center;gap:9px;transition:color .3s;}
+.nc h3 .dot{
+  width:7px;height:7px;border-radius:50%;background:var(--a);
+  box-shadow:0 0 8px rgba(201,168,76,.6);flex-shrink:0;transition:background .3s,box-shadow .3s;
+}
+.nc p{font-size:13px;color:var(--text2);line-height:1.75;margin-bottom:6px;}
+.nc p:last-child{margin-bottom:0;}
+.nc p strong{color:var(--text);font-weight:600;}
+.nc.alert{
+  border-color:rgba(248,113,113,.28);
+  background:linear-gradient(135deg,rgba(248,113,113,.07),rgba(255,252,240,.02) 60%);
+}
+.nc.alert h3{color:#fca5a5!important;}
+.nc.alert h3 .dot{background:#f87171!important;box-shadow:0 0 8px rgba(248,113,113,.5)!important;}
+
+/* ── STAT PILLS ── */
+.sprow{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:18px;}
+.sp{
+  padding:16px;border-radius:var(--radius-sm);
+  background:linear-gradient(135deg,rgba(255,252,240,.06),rgba(255,252,240,.02));
+  border:1px solid var(--border);backdrop-filter:var(--blur);
+  box-shadow:inset 0 1px 0 rgba(255,252,240,.07);
+}
+.sp-l{font-size:10px;color:var(--dim);font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;}
+.sp-v{font-size:24px;font-weight:800;letter-spacing:-.5px;color:var(--a2);transition:color .3s;}
+.sp-s{font-size:11px;color:var(--dim);margin-top:3px;}
+
+/* ── GLASS BUTTON ── */
+.gbtn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  border-radius:999px;font-family:var(--font);font-weight:700;cursor:pointer;
+  backdrop-filter:var(--blur-sm);white-space:nowrap;
+  transition:all .22s cubic-bezier(.34,1.2,.64,1);
+  position:relative;overflow:hidden;
+}
+.gbtn::after{content:"";position:absolute;inset:0;border-radius:inherit;
+  background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.08) 50%,transparent 60%);
+  background-size:200% 100%;opacity:0;transition:opacity .3s;}
+.gbtn:hover::after{opacity:1;animation:shimmer .6s ease;}
+.gbtn:active{transform:scale(.94)!important;}
+.gbtn.pri{
+  background:linear-gradient(135deg,rgba(201,168,76,.28),rgba(201,168,76,.1));
+  border:1px solid rgba(201,168,76,.45);color:var(--a2);
+  box-shadow:0 0 20px rgba(201,168,76,.2),inset 0 1px 0 rgba(201,168,76,.3);
+}
+.gbtn.pri:hover{box-shadow:0 0 32px rgba(201,168,76,.35),inset 0 1px 0 rgba(201,168,76,.4);}
+.gbtn.gho{
+  background:rgba(255,252,240,.06);border:1px solid var(--border);color:var(--text2);
+  box-shadow:inset 0 1px 0 rgba(255,252,240,.08);
+}
+.gbtn.lg{padding:15px 32px;font-size:15px;}
+.gbtn.md{padding:12px 22px;font-size:13.5px;}
+.gbtn.sm{padding:8px 16px;font-size:12px;}
+
+/* ── BOTTOM NAV ── */
+.bnav{
+  position:fixed;bottom:0;left:0;right:0;z-index:10;
+  padding:10px 14px calc(env(safe-area-inset-bottom,0px)+10px);
+  background:linear-gradient(180deg,rgba(9,8,12,.7) 0%,rgba(9,8,12,.95) 100%);
+  backdrop-filter:blur(36px);-webkit-backdrop-filter:blur(36px);
+  border-top:1px solid rgba(255,252,240,.07);
+  display:flex;gap:6px;
+}
+.ntab{
+  flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;
+  padding:10px 4px 9px;border-radius:16px;cursor:pointer;
+  border:1px solid transparent;background:transparent;
+  color:inherit;font-family:var(--font);
+  transition:all .28s cubic-bezier(.4,0,.2,1);
+}
+.ntab svg{width:20px;height:20px;stroke:var(--dim);transition:.28s;flex-shrink:0;}
+.ntab .nl{font-size:10px;color:var(--dim);font-weight:600;transition:.28s;letter-spacing:.3px;}
+.ntab.active{
+  background:linear-gradient(135deg,rgba(201,168,76,.16),rgba(201,168,76,.04));
+  border-color:rgba(201,168,76,.3);
+  box-shadow:0 0 18px rgba(201,168,76,.1),inset 0 1px 0 rgba(201,168,76,.15);
+}
+.ntab.active svg{stroke:var(--a2);filter:drop-shadow(0 0 6px rgba(201,168,76,.5));}
+.ntab.active .nl{color:var(--a);}
+.ntab:active{transform:scale(.93);}
+
+/* ── TOOLS TOGGLE ── */
+.tool-toggle{
+  display:flex;gap:0;margin:16px 18px 0;
+  background:rgba(255,252,240,.04);border:1px solid var(--border);
+  border-radius:var(--radius-sm);padding:4px;
+  backdrop-filter:var(--blur-sm);
+}
+.ttog{
+  flex:1;padding:12px 8px;border-radius:var(--radius-xs);cursor:pointer;
+  border:1px solid transparent;background:transparent;font-family:var(--font);
+  font-size:13px;font-weight:700;color:var(--dim);
+  display:flex;align-items:center;justify-content:center;gap:7px;
+  transition:all .28s cubic-bezier(.4,0,.2,1);
+}
+.ttog svg{width:16px;height:16px;stroke:var(--dim);transition:.28s;}
+.ttog.active{
+  background:linear-gradient(135deg,rgba(201,168,76,.22),rgba(201,168,76,.08));
+  border-color:rgba(201,168,76,.4);color:var(--a2);
+  box-shadow:0 0 14px rgba(201,168,76,.15),inset 0 1px 0 rgba(201,168,76,.2);
+}
+.ttog.active svg{stroke:var(--a2);}
+.tool-panel{display:none;padding:16px 18px 140px;animation:fadeIn .35s ease;}
+.tool-panel.active{display:block;}
+
+/* ── TIMER ── */
+.timer-ring-wrap{display:flex;align-items:center;justify-content:center;padding:32px 0 24px;}
+.timer-ring{position:relative;width:224px;height:224px;}
+.timer-ring svg{position:absolute;inset:0;transform:rotate(-90deg);}
+.timer-track{fill:none;stroke:rgba(255,252,240,.06);stroke-width:6;}
+.timer-prog{fill:none;stroke-width:6;stroke-linecap:round;
+  transition:stroke-dashoffset .5s cubic-bezier(.4,0,.2,1),stroke .4s;}
+.timer-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;}
+.timer-display{
+  font-size:54px;font-weight:800;letter-spacing:-2px;color:var(--text);
+  font-variant-numeric:tabular-nums;transition:color .3s;
+}
+.timer-display.running{
+  background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+}
+.timer-status{font-size:11px;color:var(--dim);letter-spacing:2.5px;text-transform:uppercase;font-weight:600;}
+.timer-btns{display:flex;gap:14px;justify-content:center;margin-bottom:24px;}
+.timer-btn{
+  width:70px;height:70px;border-radius:50%;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .22s cubic-bezier(.34,1.2,.64,1);
+}
+.timer-btn:active{transform:scale(.88);}
+.tbtn-main{
+  background:var(--grad);border:none;
+  box-shadow:0 0 32px rgba(201,168,76,.5),inset 0 2px 0 rgba(255,255,255,.25);
+  animation:pulseGold 2.5s ease-in-out infinite;
+}
+.tbtn-main.running{animation:none;box-shadow:0 0 20px rgba(201,168,76,.3);}
+.tbtn-main svg{stroke:#09080c;width:28px;height:28px;}
+.tbtn-sec{
+  background:rgba(255,252,240,.06);border:1px solid var(--border);
+  backdrop-filter:var(--blur-sm);
+}
+.tbtn-sec svg{stroke:var(--text2);width:22px;height:22px;}
+.lap-row{
+  display:flex;align-items:center;gap:10px;padding:10px 14px;
+  background:rgba(255,252,240,.04);border:1px solid rgba(255,252,240,.07);
+  border-radius:var(--radius-xs);margin-bottom:7px;
+  animation:cardIn .3s cubic-bezier(.22,1,.36,1);
+}
+
+/* ── 1RM ── */
+.orm-ex-sel{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:18px;}
+.orm-ex-btn{
+  padding:12px 10px;border-radius:var(--radius-sm);cursor:pointer;
+  font-family:var(--font);font-size:12px;font-weight:600;color:var(--dim);
+  background:var(--surface);border:1px solid var(--border);
+  backdrop-filter:var(--blur-sm);
+  transition:all .22s;text-align:center;
+}
+.orm-ex-btn.sel{
+  background:linear-gradient(135deg,rgba(201,168,76,.2),rgba(201,168,76,.06));
+  border-color:rgba(201,168,76,.4);color:var(--a2);
+  box-shadow:0 0 12px rgba(201,168,76,.12),inset 0 1px 0 rgba(201,168,76,.2);
+}
+.orm-ex-btn:active{transform:scale(.95);}
+.orm-inputs{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px;}
+.orm-field{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--radius-sm);padding:15px 16px;
+  backdrop-filter:var(--blur-sm);
+  transition:border-color .25s,box-shadow .25s;
+}
+.orm-field:focus-within{
+  border-color:rgba(201,168,76,.4);
+  box-shadow:0 0 0 3px rgba(201,168,76,.08);
+}
+.orm-field label{display:block;font-size:10px;font-weight:700;color:var(--dim);
+  letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;}
+.orm-field input{width:100%;background:transparent;border:none;outline:none;
+  font-family:var(--font);font-size:24px;font-weight:800;color:var(--text);
+  -webkit-text-fill-color:var(--text);}
+.orm-field input::placeholder{color:rgba(255,252,240,.15);}
+.orm-result{
+  border-radius:var(--radius);padding:24px;text-align:center;margin-bottom:16px;
+  background:linear-gradient(135deg,rgba(201,168,76,.14),rgba(201,168,76,.04));
+  border:1px solid rgba(201,168,76,.3);
+  box-shadow:0 0 28px rgba(201,168,76,.1),inset 0 1px 0 rgba(201,168,76,.2);
+}
+.orm-result-num{
+  font-size:60px;font-weight:800;letter-spacing:-2px;
+  background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  filter:drop-shadow(0 0 8px rgba(201,168,76,.3));
+}
+.orm-result-label{font-size:11px;color:var(--dim);letter-spacing:2.5px;text-transform:uppercase;margin-top:6px;}
+.orm-formula-row{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:18px;}
+.orm-formula-pill{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--radius-sm);padding:13px 10px;text-align:center;
+  backdrop-filter:var(--blur-sm);
+}
+.orm-formula-pill .of-val{font-size:18px;font-weight:800;color:var(--a2);transition:color .3s;}
+.orm-formula-pill .of-lbl{font-size:10px;color:var(--dim);margin-top:4px;letter-spacing:.5px;font-weight:600;}
+
+/* ── TRACKER ── */
+.trk-ex-tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;}
+.trk-ex-tab{
+  padding:13px 8px;border-radius:var(--radius-sm);cursor:pointer;
+  font-family:var(--font);font-size:12px;font-weight:600;color:var(--dim);
+  background:var(--surface);border:1px solid var(--border);
+  backdrop-filter:var(--blur-sm);transition:.22s;text-align:center;
+}
+.trk-ex-tab.sel{
+  background:linear-gradient(135deg,rgba(201,168,76,.2),rgba(201,168,76,.06));
+  border-color:rgba(201,168,76,.4);color:var(--a2);
+  box-shadow:0 0 12px rgba(201,168,76,.12);
+}
+.trk-ex-tab:active{transform:scale(.95);}
+.trk-input-row{display:flex;gap:10px;margin-bottom:16px;align-items:flex-end;}
+.trk-field{
+  flex:1;background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--radius-sm);padding:14px 16px;backdrop-filter:var(--blur-sm);
+  transition:border-color .25s,box-shadow .25s;
+}
+.trk-field:focus-within{border-color:rgba(201,168,76,.4);box-shadow:0 0 0 3px rgba(201,168,76,.08);}
+.trk-field label{display:block;font-size:10px;font-weight:700;color:var(--dim);
+  letter-spacing:1px;text-transform:uppercase;margin-bottom:7px;}
+.trk-field input{width:100%;background:transparent;border:none;outline:none;
+  font-family:var(--font);font-size:22px;font-weight:800;color:var(--text);
+  -webkit-text-fill-color:var(--text);}
+.trk-field input::placeholder{color:rgba(255,252,240,.15);}
+.trk-add-btn{
+  width:54px;height:54px;border-radius:16px;flex-shrink:0;cursor:pointer;
+  background:var(--grad);border:none;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 0 22px rgba(201,168,76,.4),inset 0 1px 0 rgba(255,255,255,.2);
+  transition:.22s cubic-bezier(.34,1.2,.64,1);
+}
+.trk-add-btn:active{transform:scale(.88);}
+.trk-add-btn svg{stroke:#09080c;width:24px;height:24px;}
+.pr-banner{
+  border-radius:var(--radius-sm);padding:14px 16px;margin-bottom:16px;
+  background:linear-gradient(135deg,rgba(201,168,76,.16),rgba(201,168,76,.04));
+  border:1px solid rgba(201,168,76,.4);
+  display:flex;align-items:center;gap:12px;
+  box-shadow:0 0 20px rgba(201,168,76,.12);
+  animation:prPop .5s cubic-bezier(.34,1.56,.64,1);
+}
+.pr-banner svg{stroke:var(--a);flex-shrink:0;}
+.pr-text{font-size:13px;font-weight:700;color:var(--a3);}
+.pr-sub{font-size:11px;color:var(--a);margin-top:2px;opacity:.7;}
+.trk-chart{
+  border-radius:var(--radius);padding:18px;
+  background:var(--surface);border:1px solid var(--border);
+  margin-bottom:16px;backdrop-filter:var(--blur);
+  box-shadow:inset 0 1px 0 rgba(255,252,240,.06);
+}
+.trk-chart-title{font-size:11px;font-weight:700;color:var(--dim);letter-spacing:1.5px;
+  text-transform:uppercase;margin-bottom:16px;display:flex;align-items:center;gap:8px;}
+.trk-chart-title::after{content:"";flex:1;height:1px;
+  background:linear-gradient(90deg,rgba(201,168,76,.2),transparent);}
+.chart-svg{width:100%;overflow:visible;}
+.trk-hist-row{
+  display:flex;align-items:center;gap:12px;padding:13px 15px;
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--radius-sm);margin-bottom:8px;
+  backdrop-filter:var(--blur-sm);
+  transition:border-color .2s;
+}
+.trk-hist-row:hover{border-color:rgba(201,168,76,.2);}
+.trk-hist-date{font-size:11px;color:var(--dim);font-weight:500;flex-shrink:0;min-width:52px;}
+.trk-hist-weight{font-size:19px;font-weight:800;color:var(--a2);transition:color .3s;}
+.trk-hist-reps{font-size:12px;color:var(--dim);margin-right:auto;}
+.trk-hist-delta{font-size:11px;font-weight:700;padding:3px 9px;border-radius:8px;}
+.trk-hist-delta.up{background:rgba(201,168,76,.14);color:var(--a2);}
+.trk-hist-delta.down{background:rgba(248,113,113,.12);color:#f87171;}
+.trk-hist-delta.same{background:rgba(255,252,240,.06);color:var(--dim);}
+
+/* ── TIP MODAL ── */
+.tip-bd{
+  position:fixed;inset:0;z-index:300;
+  display:flex;align-items:flex-end;justify-content:center;
+  background:rgba(0,0,0,.7);
+  backdrop-filter:blur(20px);
+  opacity:0;pointer-events:none;
+  transition:opacity .32s cubic-bezier(.4,0,.2,1);
+}
+.tip-bd.open{opacity:1;pointer-events:all;}
+.tip-sh{
+  width:100%;max-width:560px;
+  background:linear-gradient(160deg,rgba(20,18,24,.96),rgba(12,10,15,.98));
+  border:1px solid rgba(201,168,76,.18);
+  border-radius:28px 28px 0 0;
+  padding:20px 22px calc(env(safe-area-inset-bottom,0px)+30px);
+  box-shadow:0 -4px 60px rgba(0,0,0,.7),0 -1px 0 rgba(201,168,76,.15);
+  transform:translateY(100%);
+  transition:transform .38s cubic-bezier(.22,1,.36,1);
+}
+.tip-bd.open .tip-sh{transform:translateY(0);}
+.tip-drag{width:40px;height:4px;border-radius:99px;background:rgba(255,252,240,.15);margin:0 auto 22px;}
+.tip-hrow{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;}
+.tip-hrow-l{display:flex;align-items:center;gap:14px;}
+.tip-ico{
+  width:48px;height:48px;border-radius:15px;flex-shrink:0;
+  background:var(--grad);display:flex;align-items:center;justify-content:center;
+  box-shadow:0 0 22px rgba(201,168,76,.4);transition:background .3s,box-shadow .3s;
+}
+.tip-nm{font-size:17px;font-weight:800;letter-spacing:-.3px;color:var(--text);}
+.tip-sub{font-size:11px;color:var(--dim);margin-top:2px;letter-spacing:.5px;}
+.tip-close-ico{
+  width:36px;height:36px;border-radius:50%;
+  background:rgba(255,252,240,.07);border:1px solid var(--border);
+  color:var(--text2);cursor:pointer;display:flex;align-items:center;justify-content:center;
+  transition:.2s;
+}
+.tip-close-ico:active{transform:scale(.88);}
+.tip-focus{
+  padding:14px 16px;border-radius:var(--radius-sm);margin-bottom:18px;
+  border:1px solid rgba(201,168,76,.25);
+  background:linear-gradient(135deg,rgba(201,168,76,.1),rgba(201,168,76,.03));
+  font-size:13px;color:var(--a2);font-weight:600;
+  display:flex;align-items:center;gap:10px;
+  transition:color .3s,border-color .3s;
+}
+.tip-focus svg{flex-shrink:0;stroke:var(--a);}
+.tip-steps{display:flex;flex-direction:column;gap:10px;margin-bottom:22px;}
+.tip-step{
+  display:flex;align-items:flex-start;gap:13px;
+  background:rgba(255,252,240,.04);border:1px solid rgba(255,252,240,.07);
+  border-radius:var(--radius-sm);padding:14px 16px;
+  opacity:0;transform:translateY(12px);
+  transition:opacity .4s ease,transform .4s ease;
+}
+.tip-step.show{opacity:1;transform:none;}
+.tip-step-num{
+  width:28px;height:28px;border-radius:9px;flex-shrink:0;
+  background:var(--grad);display:flex;align-items:center;justify-content:center;
+  font-size:12px;font-weight:800;color:#09080c;
+  box-shadow:0 0 10px rgba(201,168,76,.3);
+  transition:background .3s;
+}
+.tip-step-txt{font-size:13.5px;color:var(--text2);line-height:1.7;padding-top:3px;}
+
+/* ── CUSTOMIZE MODAL ── */
+.cust-bd{
+  position:fixed;inset:0;z-index:200;
+  display:flex;align-items:flex-end;justify-content:center;
+  background:rgba(0,0,0,.7);backdrop-filter:blur(18px);
+  opacity:0;pointer-events:none;transition:opacity .28s;padding:0;
+}
+.cust-bd.open{opacity:1;pointer-events:all;}
+.cust-sh{
+  width:100%;max-width:560px;max-height:90vh;overflow-y:auto;
+  background:linear-gradient(160deg,rgba(18,16,22,.97),rgba(10,8,14,.99));
+  border:1px solid rgba(201,168,76,.15);border-radius:28px 28px 0 0;
+  padding:20px 20px calc(env(safe-area-inset-bottom,0px)+32px);
+  box-shadow:0 -4px 60px rgba(0,0,0,.65);
+  transform:translateY(100%);transition:transform .35s cubic-bezier(.22,1,.36,1);
+}
+.cust-bd.open .cust-sh{transform:translateY(0);}
+.cust-sh::-webkit-scrollbar{width:2px;}
+.cust-sh::-webkit-scrollbar-thumb{background:rgba(201,168,76,.2);border-radius:99px;}
+.drag-h{width:40px;height:4px;border-radius:99px;background:rgba(255,252,240,.14);margin:0 auto 24px;}
+.csec{
+  font-size:11px;font-weight:700;color:var(--dim);letter-spacing:1.5px;
+  text-transform:uppercase;margin:0 0 13px;display:flex;align-items:center;gap:7px;
+}
+.csec svg{stroke:var(--a);opacity:.7;}
+
+/* BG GRID */
+.bg-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:10px;margin-bottom:26px;}
+.bg-btn{
+  position:relative;padding:16px 10px;border-radius:var(--radius-sm);cursor:pointer;
+  font-family:var(--font);display:flex;flex-direction:column;align-items:center;gap:9px;
+  transition:all .22s cubic-bezier(.34,1.2,.64,1);border:2px solid rgba(255,252,240,.08);
+}
+.bg-btn.sel{border-color:var(--a)!important;box-shadow:0 0 20px rgba(201,168,76,.25);}
+.bg-btn:active{transform:scale(.92);}
+.bg-sw{width:28px;height:28px;border-radius:50%;border:1px solid rgba(255,252,240,.2);}
+.bg-lb{font-size:10.5px;font-weight:600;color:#94a3b8;}
+.bg-btn.sel .bg-lb{color:var(--a2);}
+.bg-chk{
+  position:absolute;top:7px;right:7px;width:18px;height:18px;
+  border-radius:50%;background:var(--grad);
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 0 8px rgba(201,168,76,.4);
+}
+
+/* ACCENT GRID */
+.ac-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:26px;}
+.ac-btn{
+  padding:12px 13px;border-radius:var(--radius-sm);cursor:pointer;font-family:var(--font);
+  border:2px solid rgba(255,252,240,.08);
+  background:var(--surface);
+  display:flex;align-items:center;gap:11px;
+  transition:all .22s cubic-bezier(.34,1.2,.64,1);
+  backdrop-filter:var(--blur-sm);
+}
+.ac-btn.sel{transform:scale(1.04);}
+.ac-btn:active{transform:scale(.94);}
+.ac-sw{width:32px;height:32px;border-radius:10px;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+.ac-nm{font-size:12px;font-weight:700;color:#94a3b8;white-space:nowrap;}
+.ac-btn.sel .ac-nm{color:#fff;}
+.ac-dots{display:flex;gap:4px;margin-top:4px;}
+.ac-dot{width:8px;height:8px;border-radius:50%;}
+
+/* FONT LIST */
+.fn-list{display:flex;flex-direction:column;gap:8px;margin-bottom:26px;}
+.fn-btn{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 17px;border-radius:var(--radius-sm);cursor:pointer;
+  border:1px solid var(--border);
+  background:var(--surface);backdrop-filter:var(--blur-sm);
+  transition:all .2s;
+}
+.fn-btn.sel{border-color:rgba(201,168,76,.35);background:rgba(201,168,76,.08);}
+.fn-btn:active{transform:scale(.98);}
+.fn-sm{font-size:17px;font-weight:700;color:#cbd5e1;}
+.fn-btn.sel .fn-sm{color:#fff;}
+.fn-hi{font-size:13px;color:var(--dim);}
+
+/* PREVIEW */
+.prev-card{
+  border-radius:var(--radius);padding:20px;
+  background:linear-gradient(135deg,rgba(201,168,76,.1),rgba(201,168,76,.03));
+  border:1px solid rgba(201,168,76,.25);
+  display:flex;align-items:center;gap:15px;margin-bottom:26px;
+  box-shadow:0 0 24px rgba(201,168,76,.08);
+}
+.prev-ico{width:56px;height:56px;border-radius:16px;flex-shrink:0;
+  background:var(--grad);display:flex;align-items:center;justify-content:center;
+  transition:background .3s;}
+.prev-badge{
+  font-size:13px;font-weight:800;padding:5px 14px;border-radius:11px;
+  color:var(--a2);border:1px solid rgba(201,168,76,.35);
+  background:rgba(201,168,76,.12);transition:color .3s;
+}
+
+/* STRETCH SWATCH */
+.ssw{display:inline-block;width:11px;height:11px;border-radius:3px;
+  background:var(--grad);vertical-align:middle;margin-left:5px;
+  box-shadow:0 0 6px rgba(201,168,76,.5);}
+</style>
+</head>
+<body>
+<div id="vbg"></div>
+<div class="vov"></div>
+<div class="ambient"></div>
+
+<!-- SPLASH -->
+<div id="splash">
+  <div class="splash-icon lr">
+    <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M6 7h2v10H6zM16 7h2v10h-2zM8 12h8M3 9h1v6H3zM20 9h1v6h-1z"/>
+    </svg>
+  </div>
+  <div class="splash-title">FORGE</div>
+  <div class="splash-sub">Hypertrophy · Upper Body</div>
+  <div class="splash-bar-wrap"><div class="splash-bar" id="splash-bar"></div></div>
+</div>
+
+<div class="app">
+  <!-- HEADER -->
+  <header class="hdr">
+    <div class="hdr-l">
+      <div class="hdr-icon lr">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 7h2v10H6zM16 7h2v10h-2zM8 12h8M3 9h1v6H3zM20 9h1v6h-1z"/>
+        </svg>
+      </div>
+      <div>
+        <div class="hdr-name">FORGE</div>
+        <div class="hdr-sub">Hypertrophy · Upper</div>
+      </div>
+    </div>
+    <div class="hdr-r">
+      <div class="badge-yd">Y.D</div>
+      <button class="icon-btn lr" onclick="openCust()">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <div class="scroll" id="scroll">
+
+    <!-- SUPER: WORKOUT -->
+    <div class="super-panel active" id="super-workout">
+      <!-- workout sub-tabs -->
+      <div class="wtabs">
+        <button class="wtab active" data-wp="a" onclick="switchWorkout(this)">A · דחיפה</button>
+        <button class="wtab" data-wp="b" onclick="switchWorkout(this)">B · משיכה</button>
+        <button class="wtab" data-wp="c" onclick="switchWorkout(this)">C · מאוזן</button>
+      </div>
+    <!-- PANEL A -->
+    <div class="panel active" id="panel-a">
+      <div class="whead"><div class="wbadge lr">A</div><div><div class="wtitle">אימון דחיפה</div><div class="wfocus">חזה · כתפיים · טרייספס</div></div></div>
+      <div class="ex lr" style="animation-delay:.05s" onclick="showTip(this)"
+        data-name="לחיצת חזה במוט ישר"
+        data-focus="מרגישים את זה בחזה האמצעי והתחתון"
+        data-steps='["שכב על הספסל, שכמות לחוצות אחורה ולמטה","אחוז במוט ברוחב כתפיים פלוס קצת — מרפקים ב-45° מהגוף","הורד לחזה התחתון (3 שניות) — מוט נוגע קלות בחזה","דחוף חזק בנשיפה, אל תנעל ידיים בסוף"]'>
+        <div class="num">1</div>
+        <div class="body">
+          <div class="exname">לחיצת חזה במוט ישר</div>
+          <div class="exmeta"><div class="exscheme">6-8 חזרות</div><div class="tap-hint"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>איך עושים</div></div>
+        </div>
+        <div class="sets">2×</div>
+      </div>
+      <div class="ex lr" style="animation-delay:.1s" onclick="showTip(this)"
+        data-name="לחיצת כתפיים (מוט / יד)"
+        data-focus="מרגישים בדלתא הקדמי ובטרייספס"
+        data-steps='["עמוד זקוף — הדק בטן ואל תקמר גב","אחוז מוט ברוחב כתפיים, מרפקים קדימה-מעט (לא לצד)","הרם ישר למעלה עד שהיד כמעט ישרה","הורד לגובה הסנטר בשליטה — עצור שנייה ורפס"]'>
+        <div class="num">2</div>
+        <div class="body">
+          <div class="exname">לחיצת כתפיים (מוט / יד)</div>
+          <div class="exmeta"><div class="exscheme">6-8 חזרות</div><div class="tap-hint"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>איך עושים</div></div>
+        </div>
+        <div class="sets">2×</div>
+      </div>
+      <div class="ex lr" style="animation-delay:.15s" onclick="showTip(this)"
+        data-name="לחיצת חזה משופע · יד"
+        data-focus="מרגישים בחזה העליון — החלק שנשאר חלש"
+        data-steps='["הספסל ב-30-45° — לא יותר, אחרת נהיה כתפיים","משקולות יד בגובה החזה העליון, כפות ידיים קדימה","דחוף למעלה ומעט פנימה, משקולות כמעט נוגעות בראש","הורד לאט — תרגיש מתיחה בחזה העליון בנקודה הנמוכה"]'>
+        <div class="num">3</div>
+        <div class="body">
+          <div class="exname">לחיצת חזה משופע · משקולות יד</div>
+          <div class="exmeta"><div class="exscheme">6-8 חזרות</div><div class="tap-hint"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>איך עושים</div></div>
+        </div>
+        <div class="sets">2×</div>
+      </div>
+      <div class="ex stretch lr" style="animation-delay:.2s" onclick="showTip(this)"
+        data-name="הרחקת כתפיים"
+        data-focus="הירידה האיטית היא הגירוי העיקרי — אל תמהר"
+        data-steps='["עמוד זקוף, מרפקים קלות כפופים ונעולים — לא ישרים","הרם הצידה עד גובה הכתפיים בדיוק — לא מעל","בנקודה הגבוהה — עצור שנייה, תרגיש כיווץ","הורד לאט 3-4 שניות — תרגיש מתיחה בדלתא הצדדי"]'>
+        <span class="stag">נקודה מתוחה</span>
+        <div class="num">4</div>
+        <div class="body">
+          <div class="exname">הרחקת כתפיים</div>
+          <div class="exmeta" style="margin-top:18px"><div class="exscheme">6-8 חזרות</div><div class="tap-hint"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>איך עושים</div></div>
+        </div>
+        <div class="sets">2×</div>
+      </div>
+      <div class="ex lr" style="animation-delay:.25s" onclick="showTip(this)"
+        data-name="פושדאון טרייספס בכבל"
+        data-focus="המרפק לא זז — הוא הציר של התנועה"
+        data-steps='["עמוד מול הכבל, כפוף קדימה קלות","מרפק צמוד לגוף ולא זז — זה הכלל הכי חשוב","דחוף ידית למטה עד שהיד ישרה לגמרי","חזור לאט — אל תשתמש בתנע ובמשקל הגוף"]'>
+        <div class="num">5</div>
+        <div class="body">
+          <div class="exname">פושדאון טרייספס בכבל</div>
+          <div class="exmeta"><div class="exscheme">6-8 חזרות</div><div class="tap-hint"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>איך עושים</div></div>
+        </div>
+        <div class="sets">2×</div>
+      </div>
+    </div>
+
+    <!-- PANEL B -->
+    <div class="panel" id="panel-b">
+      <div class="whead"><div class="wbadge lr">B</div><div><div class="wtitle">אימון משיכה</div><div class="wfocus">גב · אחורי כתף · בייספס</div></div></div>
+      <div class="ex lr" style="animation-delay:.05s" onclick="showTip(this)"
+        data-name="חתירה במוט"
+        data-focus="גב ישר — גב מעוגל = פציעה"
+        data-steps='["כפוף קדימה 45°, ברכיים קלות כפופות","גב ישר לגמרי — זה הכלל הכי חשוב בתרגיל הזה","משוך מוט לכיוון הבטן התחתונה, מרפקים לאחור","סחוט גב בנקודה הגבוהה שנייה, הורד בשליטה"]'>
+        <div class="num">1</div>
+        <div class="body"><div class="exname">חתירה במוט</div><div class="exmeta"><div class="exscheme">6-8 חזרות</div><div class="tap-hint"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>איך עושים</div></div></div>
+        <div class="sets">2×</div>
+      </div>
+      <div class="ex lr" style="animation-delay:.1s" onclick="showTip(this)"
+        data-name="משיכת פולי עליון / מתח"
+        data-focus="השכמות יורדות ומתקרבות — לא הידיים"
+        data-steps='["שב, הישען 15° אחורה — דחוף חזה קדימה","אחוז רחב, הורד ידיות לחזה העליון","מרפקים יורדים לכיוון הרצפה — לא לאחור","בנקודה הנמוכה: שכמות מסוחטות זו לזו שנייה"]'>
+        <div class="num">2</div>
+        <div class="body"><div class="exname">משיכת פולי עליון / מתח</div><div class="exmeta"><div class="exscheme">6-8 חזרות</div><div class="tap-hint"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>איך עושים</div></div></div>
+        <div class="sets">2×</div>
+      </div>
+      <div class="ex lr" style="animation-delay:.15s" onclick="showTip(this)"
+        data-name="חתירה בכבל / ביד אחת"
+        data-focus="תן לגב להרגיש את התנועה — לא ליד"
+        data-steps='["ברך אחת על הספסל, יד שנייה נשענת","גב ישר ומקביל לרצפה — לא מוטה","משוך למעלה לצד הגוף, מרפק קרוב ועובר אחורה","עצור שנייה בנקודה הגבוהה, הורד ותאפשר מתיחה מלאה"]'>
+        <div class="num">3</div>
+        <div class="body"><div class="exname">חתירה בכבל / ביד אחת</div><div class="exmeta"><div class="exscheme">6-8 חזרות</div><div class="tap-hint"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>איך עושים</div></div></div>
+        <div class="sets">2×</div>
+      </div>
+      <div class="ex lr" style="animation-delay:.2s" onclick="showTip(this)"
+        data-name="פייס-פול"
+        data-focus="אייקוני לאחורי הכתף — אל תזניח אותו"
+        data-steps='["קבע כבל לגובה הראש, שב זקוף","אחוז בידית רחבה, מרפקים גבוהים","משוך לכיוון הפנים תוך סיבוב כפות הידיים כלפי מטה","מרפקים מעל גובה הכתפיים בסוף התנועה"]'>
+        <div class="num">4</div>
+        <div class="body"><div class="exname">פייס-פול</div><div class="exmeta"><div class="exscheme">6-8 חזרות</div><div class="tap-hint"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>איך עושים</div></div></div>
+        <div class="sets">2×</div>
+      </div>
+      <div class="ex stretch lr" style="animation-delay:.25s" onclick="showTip(this)"
+        data-name="כפיפת מרפק במוט W"
+        data-focus="הירידה המלאה עם עצירה — זה הסוד"
+        data-steps='["שב על הספסל, גב ישר, מרפקים ניוטרליים","כפוף מרפק ומשוך מוט לכיוון הכתף","בנקודה הגבוהה — סחוט בייספס שנייה","הורד לאט עד שהיד ישרה — עצור שנייה ותרגיש מתיחה"]'>
+        <span class="stag">נקודה מתוחה</span>
+        <div class="num">5</div>
+        <div class="body"><div class="exname">כפיפת מרפק במוט W</div><div class="exmeta" style="margin-top:18px"><div class="exscheme">6-8 חזרות</div><div class="tap-hint"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>איך עושים</div></div></div>
+        <div class="sets">2×</div>
+      </div>
+    </div>
+
+    <!-- PANEL C -->
+    <div class="panel" id="panel-c">
+      <div class="whead"><div class="wbadge lr">C</div><div><div class="wtitle">עליון מאוזן</div><div class="wfocus">נפח כולל · סופרסטים</div></div></div>
+      <div class="ex lr" style="animation-delay:.05s" onclick="showTip(this)"
+        data-name="לחיצת חזה משופע במוט"
+        data-focus="אותם עקרונות כמו A — אבל ספסל משופע"
+        data-steps='["ספסל ב-30-45°, שכמות נלחצות לספסל","הורד מוט לחזה העליון (מתחת לעצם הבריח)","מרפקים ב-45° מהגוף — לא מוטות לצד","דחוף חזק ותרגיש חזה עליון מעובד"]'>
+        <div class="num">1</div>
+        <div class="body"><div class="exname">לחיצת חזה משופע במוט</div><div class="exmeta"><div class="exscheme">6-8 חזרות</div><div class="tap-hint"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>איך עושים</div></div></div>
+        <div class="sets">2×</div>
+      </div>
+      <div class="ex lr" style="animation-delay:.1s" onclick="showTip(this)"
+        data-name="חתירה / משיכת פולי"
+        data-focus="בחר מה עשית פחות השבוע"
+        data-steps='["חתירה: כפוף 45°, גב ישר, משוך לבטן תחתונה","פולי: הישען 15° אחורה, משוך לחזה עליון","בשניהם: שכמות מסוחטות בנקודה הקרובה","הורד בשליטה — אל תשחרר בפתאומיות"]'>
+        <div class="num">2</div>
+        <div class="body"><div class="exname">חתירה / משיכת פולי</div><div class="exmeta"><div class="exscheme">6-8 חזרות</div><div class="tap-hint"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>איך עושים</div></div></div>
+        <div class="sets">2×</div>
+      </div>
+      <div class="ex lr" style="animation-delay:.15s" onclick="showTip(this)"
+        data-name="לחיצת כתפיים · משקולות יד"
+        data-focus="קשה יותר לרמות עם ידיות — עשה זה נכון"
+        data-steps='["שב על ספסל, גב ישר ומגובה","ידיות בגובה האוזניים, כפות קדימה או ניוטרלי","הרם ישר למעלה, מרפקים קדימה-מעט","הורד עד גובה האוזניים — לא יותר למטה"]'>
+        <div class="num">3</div>
+        <div class="body"><div class="exname">לחיצת כתפיים · משקולות יד</div><div class="exmeta"><div class="exscheme">6-8 חזרות</div><div class="tap-hint"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>איך עושים</div></div></div>
+        <div class="sets">2×</div>
+      </div>
+      <div class="ex stretch lr" style="animation-delay:.2s" onclick="showTip(this)"
+        data-name="הרחקת כתפיים + כפיפת בייספס"
+        data-focus="סופרסט — ללא מנוחה בין שני התרגילים"
+        data-steps='["קודם: הרחקת כתפיים — 6-8 חזרות, ירידה איטית","מיד אחרי: כפיפת בייספס עם יד — 6-8 חזרות","בבייספס: עצור שנייה בתחתית עם יד פשוטה","רק אחרי שני התרגילים — מנוחה"]'>
+        <span class="stag">נקודה מתוחה</span>
+        <div class="num">4</div>
+        <div class="body"><div class="exname">הרחקת כתפיים + סופרסט כפיפת בייספס</div><div class="exmeta" style="margin-top:18px"><div class="exscheme">6-8 חזרות</div><div class="tap-hint"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>איך עושים</div></div></div>
+        <div class="sets">2×</div>
+      </div>
+      <div class="ex stretch lr" style="animation-delay:.25s" onclick="showTip(this)"
+        data-name="פלייז חזה + פושדאון טרייספס"
+        data-focus="סופרסט — גמר אימון מושלם לחזה וטרייספס"
+        data-steps='["קודם: פלייז עם משקולות יד — הורד עד מתיחה מקסימלית","בפלייז: מרפקים קלות כפופים, הורד לצדדים לאט","מיד אחרי: פושדאון בכבל — מרפקים צמודים לגוף","דחוף עד יד ישרה, חזור לאט — זה הסיום"]'>
+        <span class="stag">נקודה מתוחה</span>
+        <div class="num">5</div>
+        <div class="body"><div class="exname">פלייז חזה + פושדאון טרייספס (סופרסט)</div><div class="exmeta" style="margin-top:18px"><div class="exscheme">6-8 חזרות</div><div class="tap-hint"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>איך עושים</div></div></div>
+        <div class="sets">2×</div>
+      </div>
+    </div>
+
+    </div><!-- /super-workout -->
+
+    <!-- SUPER: TOOLS -->
+    <div class="super-panel" id="super-tools">
+      <!-- toggle timer / 1RM -->
+      <div class="tool-toggle">
+        <button class="ttog active" data-tool="timer" onclick="switchTool(this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          טיימר
+        </button>
+        <button class="ttog" data-tool="orm" onclick="switchTool(this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          מחשבון 1RM
+        </button>
+      </div>
+
+      <!-- TIMER panel -->
+      <div class="tool-panel active" id="tool-timer">
+        <div class="timer-ring-wrap">
+          <div class="timer-ring lr">
+            <svg viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg">
+              <circle class="timer-track" cx="110" cy="110" r="98"/>
+              <circle class="timer-prog" id="timer-prog" cx="110" cy="110" r="98"
+                stroke-dasharray="615.75" stroke-dashoffset="0" stroke="url(#tgrad)"/>
+              <defs>
+                <linearGradient id="tgrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="var(--a)"/>
+                  <stop offset="100%" stop-color="var(--a2)"/>
+                </linearGradient>
+              </defs>
+            </svg>
+            <div class="timer-center">
+              <div class="timer-display" id="timer-display">00:00</div>
+              <div class="timer-status" id="timer-status">לחץ להתחלה</div>
+            </div>
+          </div>
+        </div>
+        <div class="timer-btns">
+          <button class="timer-btn tbtn-sec lr" onclick="timerReset()" title="איפוס">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+          </button>
+          <button class="timer-btn tbtn-main lr" id="timer-main-btn" onclick="timerToggle()">
+            <svg id="timer-icon" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          </button>
+          <button class="timer-btn tbtn-sec lr" onclick="timerLap()" title="סמן">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </button>
+        </div>
+        <div id="timer-laps" style="padding:0 2px;max-height:180px;overflow-y:auto;"></div>
+      </div>
+
+      <!-- 1RM panel -->
+      <div class="tool-panel" id="tool-orm">
+        <div style="padding-top:16px">
+          <div class="shead">בחר תרגיל</div>
+          <div class="orm-ex-sel" id="orm-ex-sel"></div>
+          <div class="shead" style="margin-top:16px">הזן ביצוע</div>
+          <div class="orm-inputs">
+            <div class="orm-field lr">
+              <label>משקל (ק"ג)</label>
+              <input type="number" id="orm-weight" placeholder="60" inputmode="decimal" oninput="calcOrm()">
+            </div>
+            <div class="orm-field lr">
+              <label>חזרות</label>
+              <input type="number" id="orm-reps" placeholder="7" inputmode="numeric" oninput="calcOrm()">
+            </div>
+          </div>
+          <div class="orm-result lr" id="orm-result">
+            <div class="orm-result-num" id="orm-num">—</div>
+            <div class="orm-result-label">משקל מקסימום משוער (1RM)</div>
+          </div>
+          <div class="shead">פירוט נוסחאות</div>
+          <div class="orm-formula-row">
+            <div class="orm-formula-pill lr"><div class="of-val" id="of-epley">—</div><div class="of-lbl">Epley</div></div>
+            <div class="orm-formula-pill lr"><div class="of-val" id="of-brzycki">—</div><div class="of-lbl">Brzycki</div></div>
+            <div class="orm-formula-pill lr"><div class="of-val" id="of-lander">—</div><div class="of-lbl">Lander</div></div>
+          </div>
+        </div>
+      </div>
+    </div><!-- /super-tools -->
+
+    <!-- SUPER: TRACKER -->
+    <div class="super-panel" id="super-tracker">
+      <div style="padding:14px 18px 130px">
+        <div class="shead">בחר תרגיל</div>
+        <div class="trk-ex-tabs" id="trk-ex-tabs"></div>
+        <div id="trk-pr-banner"></div>
+        <div class="shead">הוסף רשומה</div>
+        <div class="trk-input-row">
+          <div class="trk-field lr">
+            <label>משקל (ק"ג)</label>
+            <input type="number" id="trk-weight" placeholder="0" inputmode="decimal">
+          </div>
+          <div class="trk-field lr">
+            <label>חזרות</label>
+            <input type="number" id="trk-reps" placeholder="0" inputmode="numeric">
+          </div>
+          <button class="trk-add-btn lr" onclick="trkAdd()">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          </button>
+        </div>
+        <div class="trk-chart lr" id="trk-chart" style="display:none">
+          <div class="trk-chart-title">התקדמות</div>
+          <svg class="chart-svg" id="trk-svg" height="100"></svg>
+        </div>
+        <div class="shead">היסטוריה</div>
+        <div id="trk-hist"></div>
+      </div>
+    </div><!-- /super-tracker -->
+
+    <!-- SUPER: INFO -->
+    <div class="super-panel" id="super-info">
+    <!-- PANEL INFO -->
+    <div class="panel" id="panel-info">
+      <div class="shead">עקרונות</div>
+      <div class="sprow">
+        <div class="sp lr"><div class="sp-l">סדר שבועי</div><div class="sp-v" style="font-size:17px">A→B→C</div><div class="sp-s">מנוחה ביניהם</div></div>
+        <div class="sp lr"><div class="sp-l">תדירות</div><div class="sp-v">2×</div><div class="sp-s">לכל קבוצת שריר</div></div>
+      </div>
+      <div class="nc lr"><h3><span class="dot"></span>פרוגרסיה — מנוע הגדילה</h3>
+        <p>תעד כל אימון ושאף להוסיף <strong>חזרה או מעט משקל בכל שבוע</strong>.</p>
+        <p>כשהגעת לקצה טווח החזרות בכל הסטים — העלה משקל וחזור לתחתית.</p>
+        <p>עבוד <strong>1-2 חזרות לפני כשל</strong> (RIR 1-2) ברוב הסטים.</p></div>
+      <div class="nc lr"><h3><span class="dot"></span>נקודה מתוחה <span class="ssw"></span></h3>
+        <p>בתרגילים המסומנים — <strong>הדגש את החלק המאורך</strong> של התנועה.</p>
+        <p>מבוסס על מחקרי long-length training — גירוי חזק להיפרטרופיה.</p></div>
+      <div class="nc alert lr"><h3><span class="dot"></span>החזרה אחרי רואקוטן</h3>
+        <p>2-3 שבועות ראשונים: <strong>RIR גבוה יותר (2-3)</strong>, בלי כשל מוחלט.</p>
+        <p>אזהרה: כאבי שרירים חריגים, חולשה לא רגילה — עצור והתייעץ עם רופא.</p></div>
+      <div class="nc lr"><h3><span class="dot"></span>תזונה ושינה</h3>
+        <p><strong>עודף קלורי מתון:</strong> ~250-400 קלוריות מעל אחזקה.</p>
+        <p><strong>חלבון:</strong> ~110-145 גרם ביום. <strong>שינה:</strong> 7-9 שעות.</p>
+        <p><strong>קריאטין:</strong> 3-5 גרם ביום, הרבה מים.</p></div>
+      <div style="text-align:center;margin-top:28px;padding-bottom:10px;">
+        <div style="font-size:24px;font-weight:800;letter-spacing:4px;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent">Y.D</div>
+        <div style="font-size:10px;color:var(--dim2);letter-spacing:2px;margin-top:5px;">FORGE · 2026</div>
+      </div>
+    </div>
+
+    </div><!-- /super-info -->
+  </div><!-- /scroll -->
+
+  <!-- BOTTOM NAV — 4 super-tabs -->
+  <nav class="bnav">
+    <button class="ntab active" data-super="workout" onclick="switchSuper(this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 7h2v10H6zM16 7h2v10h-2zM8 12h8M3 9h1v6H3zM20 9h1v6h-1z"/></svg>
+      <span class="nl">אימונים</span>
+    </button>
+    <button class="ntab" data-super="tools" onclick="switchSuper(this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      <span class="nl">כלים</span>
+    </button>
+    <button class="ntab" data-super="tracker" onclick="switchSuper(this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      <span class="nl">מעקב</span>
+    </button>
+    <button class="ntab" data-super="info" onclick="switchSuper(this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      <span class="nl">הנחיות</span>
+    </button>
+  </nav>
+</div>
+
+<!-- TIP MODAL -->
+<div class="tip-bd" id="tip-bd" onclick="closeTipOut(event)">
+  <div class="tip-sh">
+    <div class="tip-drag"></div>
+    <div class="tip-hrow">
+      <div class="tip-hrow-l">
+        <div class="tip-ico lr" id="tip-ico">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.4" stroke-linecap="round"><path d="M6 7h2v10H6zM16 7h2v10h-2zM8 12h8"/></svg>
+        </div>
+        <div>
+          <div class="tip-nm" id="tip-nm"></div>
+          <div class="tip-sub">איך עושים נכון</div>
+        </div>
+      </div>
+      <button class="tip-close-ico" onclick="closeTip()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="tip-focus lr" id="tip-focus">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      <span id="tip-focus-txt"></span>
+    </div>
+    <div class="tip-steps" id="tip-steps"></div>
+    <button class="gbtn pri lg lr" style="width:100%" onclick="closeTip()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+      הבנתי, קדימה
+    </button>
+  </div>
+</div>
+
+<!-- CUSTOMIZE MODAL -->
+<div class="cust-bd" id="cust-bd" onclick="closeCustOut(event)">
+  <div class="cust-sh lr" id="cust-sh">
+    <div class="drag-h"></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <div style="width:40px;height:40px;border-radius:12px;background:var(--grad);display:flex;align-items:center;justify-content:center;box-shadow:0 0 20px rgba(52,211,153,.35);">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        </div>
+        <div>
+          <div style="font-size:19px;font-weight:800;letter-spacing:-.3px;color:#fff;">Customize</div>
+          <div style="font-size:11px;color:var(--dim);">Make it yours</div>
+        </div>
+      </div>
+      <button onclick="closeCust()" style="width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.11);color:#94a3b8;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.18s;" onmouseenter="this.style.background='rgba(255,255,255,.12)'" onmouseleave="this.style.background='rgba(255,255,255,.07)'">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="csec"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Background</div>
+    <div class="bg-grid" id="bg-grid"></div>
+    <div class="csec"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>Accent Color</div>
+    <div class="ac-grid" id="ac-grid"></div>
+    <div class="csec"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg>Font</div>
+    <div class="fn-list" id="fn-list"></div>
+    <div class="csec"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>Preview</div>
+    <div class="prev-card lr" id="prev-card">
+      <div class="prev-ico lr" id="prev-ico"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.2" stroke-linecap="round"><path d="M6 7h2v10H6zM16 7h2v10h-2zM8 12h8"/></svg></div>
+      <div style="flex:1"><div style="font-size:16px;font-weight:800;color:#fff">Looking sharp 💪</div><div style="font-size:12.5px;color:#94a3b8;margin-top:3px">This is how your app will feel.</div></div>
+      <div class="prev-badge lr" id="prev-badge">A+</div>
+    </div>
+    <button class="gbtn pri lg lr" style="width:100%" onclick="closeCust()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+      Done
+    </button>
+  </div>
+</div>
+
+<script>
+// ── DATA ─────────────────────────────────────────────────────────────
+const BGS={
+  obsidian: {name:"Obsidian",color:"#09080c",pal:{backgroundColor:0x060405,skyColor:0x100d08,cloudColor:0x1a1510,cloudShadowColor:0x080605,sunColor:0xc9a84c,sunGlareColor:0x8a6620,sunlightColor:0xe8c87a}},
+  sapphire: {name:"Sapphire",color:"#1e3a8a",pal:{backgroundColor:0x020d2e,skyColor:0x0d1f5e,cloudColor:0x1a3a8a,cloudShadowColor:0x070f30,sunColor:0x4488ff,sunGlareColor:0x2255cc,sunlightColor:0x88aaff}},
+  emerald:  {name:"Emerald", color:"#064e3b",pal:{backgroundColor:0x010e08,skyColor:0x021d10,cloudColor:0x0a4a2d,cloudShadowColor:0x010e08,sunColor:0x22d399,sunGlareColor:0x0fa875,sunlightColor:0x6eedb7}},
+  ruby:     {name:"Ruby",    color:"#7f1d1d",pal:{backgroundColor:0x1a0000,skyColor:0x250208,cloudColor:0x520813,cloudShadowColor:0x130104,sunColor:0xff3344,sunGlareColor:0xcc1122,sunlightColor:0xff8899}},
+  amethyst: {name:"Amethyst",color:"#4c1d95",pal:{backgroundColor:0x0a0014,skyColor:0x14082a,cloudColor:0x331060,cloudShadowColor:0x090416,sunColor:0xaa44ff,sunGlareColor:0x7722cc,sunlightColor:0xcc88ff}},
+  gold:     {name:"Gold",    color:"#7c4a03",pal:{backgroundColor:0x0f0600,skyColor:0x200d00,cloudColor:0x4a1e00,cloudShadowColor:0x0f0600,sunColor:0xffc83d,sunGlareColor:0xff9900,sunlightColor:0xffdd88}},
+  teal:     {name:"Deep Teal",color:"#134e4a",pal:{backgroundColor:0x010a0a,skyColor:0x021414,cloudColor:0x073333,cloudShadowColor:0x010a0a,sunColor:0x00e5cc,sunGlareColor:0x00bba8,sunlightColor:0x66ffe5}},
+};
+const ACS={
+  amber:   {a:"#c9a84c",b:"#e8c87a",name:"Amber Gold"},
+  champagne:{a:"#e8c87a",b:"#f5e0a0",name:"Champagne"},
+  copper:  {a:"#b87333",b:"#d4944a",name:"Copper"},
+  emerald: {a:"#34d399",b:"#6ee7b7",name:"Emerald"},
+  sapphire:{a:"#60a5fa",b:"#93c5fd",name:"Sapphire"},
+  rose:    {a:"#fb7185",b:"#fda4af",name:"Rose"},
+};
+const FNS={
+  sora:   {name:"Sora",         s:"'Sora',sans-serif"},
+  poppins:{name:"Poppins",      s:"'Poppins',sans-serif"},
+  outfit: {name:"Outfit",       s:"'Outfit',sans-serif"},
+  sgrotesk:{name:"Space Grotesk",s:"'Space Grotesk',sans-serif"},
+  jakarta:{name:"Plus Jakarta", s:"'Plus Jakarta Sans',sans-serif"},
+};
+
+// ── STATE ─────────────────────────────────────────────────────────────
+let C={bgTheme:"obsidian",accent:"amber",font:"sora"};
+try{const s=JSON.parse(localStorage.getItem("forge-v3")||"null");if(s)C={...C,...s};}catch(e){}
+let vfx=null;
+
+// ── APPLY ─────────────────────────────────────────────────────────────
+const R=document.documentElement.style;
+function applyA(k){const p=ACS[k]||ACS.amber;R.setProperty("--a",p.a);R.setProperty("--a2",p.b);R.setProperty("--grad",`linear-gradient(135deg,${p.a},${p.b})`);}
+function applyBg(k){const t=BGS[k]||BGS.obsidian;R.setProperty("--bg",t.color);if(vfx)vfx.setOptions(t.pal);}
+function applyF(k){const f=FNS[k]||FNS.sora;R.setProperty("--font",f.s);}
+function applyAll(){applyA(C.accent);applyBg(C.bgTheme);applyF(C.font);}
+function save(){try{localStorage.setItem("forge-v3",JSON.stringify(C));}catch(e){}}
+function upd(p){C={...C,...p};save();applyAll();renderCust();}
+
+// ── UTILS ─────────────────────────────────────────────────────────────
+function h2r(h){const x=h.replace("#","");return`${parseInt(x.slice(0,2),16)},${parseInt(x.slice(2,4),16)},${parseInt(x.slice(4,6),16)}`;}
+function ha(h,a){return`rgba(${h2r(h)},${a})`;}
+
+// ── VANTA ─────────────────────────────────────────────────────────────
+function loadSc(src){return new Promise((res,rej)=>{if([...document.scripts].some(s=>s.src===src))return res();const s=document.createElement("script");s.src=src;s.async=true;s.onload=()=>res();s.onerror=()=>rej();document.head.appendChild(s);});}
+async function initVanta(){
+  try{
+    await loadSc("https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js");
+    await loadSc("https://cdn.jsdelivr.net/npm/vanta@0.5.24/dist/vanta.clouds.min.js");
+    if(!window.VANTA)return;
+    const pal=(BGS[C.bgTheme]||BGS.obsidian).pal;
+    vfx=window.VANTA.CLOUDS({el:"#vbg",mouseControls:false,touchControls:false,gyroControls:false,minHeight:200,minWidth:200,speed:.6,...pal});
+  }catch(e){}
+}
+
+// ── SPLASH ────────────────────────────────────────────────────────────
+function runSplash(){
+  const bar=document.getElementById("splash-bar");
+  const sp=document.getElementById("splash");
+  let p=0;
+  const iv=setInterval(()=>{
+    p+=Math.random()*4+2;
+    bar.style.width=Math.min(p,95)+"%";
+    if(p>=95){clearInterval(iv);setTimeout(()=>{bar.style.width="100%";setTimeout(()=>{sp.classList.add("hide");setTimeout(()=>sp.remove(),700);},300);},400);}
+  },60);
+}
+
+
+// ── DATA ─────────────────────────────────────────────────────────────
+const EXERCISES = [
+  "לחיצת חזה במוט","חתירה במוט","לחיצת כתפיים","משיכת פולי / מתח",
+  "כפיפת בייספס W","פושדאון טרייספס","הרחקת כתפיים","פייס-פול","לחיצת חזה משופע","חתירה ביד אחת"
+];
+
+// ── SUPER-NAV ─────────────────────────────────────────────────────────
+function switchSuper(btn){
+  document.querySelectorAll(".ntab").forEach(t=>t.classList.remove("active"));
+  document.querySelectorAll(".super-panel").forEach(p=>p.classList.remove("active"));
+  btn.classList.add("active");
+  const id="super-"+btn.dataset.super;
+  document.getElementById(id).classList.add("active");
+  document.getElementById("scroll").scrollTo({top:0,behavior:"smooth"});
+}
+
+// ── WORKOUT SUB-TABS ─────────────────────────────────────────────────
+function switchWorkout(btn){
+  document.querySelectorAll(".wtab").forEach(t=>t.classList.remove("active"));
+  document.querySelectorAll(".panel").forEach(p=>p.classList.remove("active"));
+  btn.classList.add("active");
+  const panel=document.getElementById("panel-"+btn.dataset.wp);
+  panel.classList.add("active");
+  panel.querySelectorAll(".ex").forEach((el,i)=>{
+    el.style.animation="none";el.offsetHeight;
+    el.style.animation="cardIn .55s cubic-bezier(.22,1,.36,1) forwards";
+    el.style.animationDelay=(i*.07)+"s";
+  });
+  document.getElementById("scroll").scrollTo({top:0,behavior:"smooth"});
+}
+
+// ── TOOL TOGGLE ──────────────────────────────────────────────────────
+function switchTool(btn){
+  document.querySelectorAll(".ttog").forEach(t=>t.classList.remove("active"));
+  document.querySelectorAll(".tool-panel").forEach(p=>p.classList.remove("active"));
+  btn.classList.add("active");
+  document.getElementById("tool-"+btn.dataset.tool).classList.add("active");
+}
+
+// ── TIMER ────────────────────────────────────────────────────────────
+let timerSec=0, timerRunning=false, timerInterval=null, lapCount=0;
+const CIRCUM=615.75;
+
+function timerTick(){
+  timerSec++;
+  const m=Math.floor(timerSec/60), s=timerSec%60;
+  document.getElementById("timer-display").textContent=
+    String(m).padStart(2,"0")+":"+String(s).padStart(2,"0");
+  // spinning ring — full rotation every 60s
+  const offset=CIRCUM*(1-(timerSec%60)/60);
+  document.getElementById("timer-prog").style.strokeDashoffset=offset;
+}
+
+function timerToggle(){
+  if(timerRunning){
+    clearInterval(timerInterval);timerRunning=false;
+    document.getElementById("timer-status").textContent="מושהה";
+    document.getElementById("timer-icon").innerHTML='<polygon points="5 3 19 12 5 21 5 3"/>';
+    document.getElementById("timer-main-btn").classList.remove("running");
+    document.getElementById("timer-display").classList.remove("running");
+  } else {
+    timerInterval=setInterval(timerTick,1000);timerRunning=true;
+    document.getElementById("timer-status").textContent="פועל";
+    document.getElementById("timer-icon").innerHTML='<rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>';
+    document.getElementById("timer-main-btn").classList.add("running");
+    document.getElementById("timer-display").classList.add("running");
+    if("vibrate" in navigator) navigator.vibrate(50);
+  }
+}
+
+function timerReset(){
+  clearInterval(timerInterval);timerRunning=false;timerSec=0;lapCount=0;
+  document.getElementById("timer-display").textContent="00:00";
+  document.getElementById("timer-status").textContent="לחץ להתחלה";
+  document.getElementById("timer-icon").innerHTML='<polygon points="5 3 19 12 5 21 5 3"/>';
+  document.getElementById("timer-prog").style.strokeDashoffset="0";
+  document.getElementById("timer-laps").innerHTML="";
+  if("vibrate" in navigator) navigator.vibrate([30,30,30]);
+}
+
+function timerLap(){
+  if(!timerRunning&&timerSec===0) return;
+  lapCount++;
+  const m=Math.floor(timerSec/60),s=timerSec%60;
+  const txt=String(m).padStart(2,"0")+":"+String(s).padStart(2,"0");
+  const acc=ACS[C.accent]||ACS.emerald;
+  const d=document.createElement("div");
+  d.className="lap-row";
+  d.innerHTML=`<span style="width:24px;height:24px;border-radius:8px;background:linear-gradient(135deg,${acc.a},${acc.b});display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:#09080c;flex-shrink:0;box-shadow:0 0 8px rgba(201,168,76,.3)">${lapCount}</span><span style="font-size:15px;font-weight:700;color:var(--text);font-variant-numeric:tabular-nums;flex:1">${txt}</span>`;
+  const laps=document.getElementById("timer-laps");
+  laps.insertBefore(d,laps.firstChild);
+  if("vibrate" in navigator) navigator.vibrate(40);
+}
+
+// ── 1RM ──────────────────────────────────────────────────────────────
+let ormEx=EXERCISES[0];
+
+function initOrm(){
+  const el=document.getElementById("orm-ex-sel");el.innerHTML="";
+  EXERCISES.slice(0,6).forEach(name=>{
+    const b=document.createElement("button");
+    b.className="orm-ex-btn lr"+(name===ormEx?" sel":"");
+    b.textContent=name;
+    b.onclick=()=>{ormEx=name;initOrm();calcOrm();};
+    el.appendChild(b);
+  });
+}
+
+function calcOrm(){
+  const w=parseFloat(document.getElementById("orm-weight").value)||0;
+  const r=parseInt(document.getElementById("orm-reps").value)||0;
+  if(!w||!r||r<1){
+    document.getElementById("orm-num").textContent="—";
+    ["of-epley","of-brzycki","of-lander"].forEach(id=>document.getElementById(id).textContent="—");
+    return;
+  }
+  const epley   = r===1 ? w : w*(1+r/30);
+  const brzycki = r===1 ? w : w*(36/(37-r));
+  const lander  = w/(1.013-(0.0267123*r));
+  const avg=(epley+brzycki+lander)/3;
+  const fmt=v=>Math.round(v*2)/2+""; // round to 0.5
+  document.getElementById("orm-num").textContent=fmt(avg)+' ק"ג';
+  document.getElementById("of-epley").textContent=fmt(epley);
+  document.getElementById("of-brzycki").textContent=fmt(brzycki);
+  document.getElementById("of-lander").textContent=fmt(lander);
+}
+
+// ── TRACKER ──────────────────────────────────────────────────────────
+let trkEx=EXERCISES[0];
+let trkData={};
+try{const s=JSON.parse(localStorage.getItem("forge-trk")||"{}");if(s)trkData=s;}catch(e){}
+
+function saveTrk(){try{localStorage.setItem("forge-trk",JSON.stringify(trkData));}catch(e){}}
+
+function initTrkTabs(){
+  const el=document.getElementById("trk-ex-tabs");el.innerHTML="";
+  EXERCISES.slice(0,6).forEach(name=>{
+    const b=document.createElement("button");
+    b.className="trk-ex-tab lr"+(name===trkEx?" sel":"");
+    b.textContent=name;
+    b.onclick=()=>{trkEx=name;initTrkTabs();renderTrk();};
+    el.appendChild(b);
+  });
+}
+
+function trkAdd(){
+  const w=parseFloat(document.getElementById("trk-weight").value);
+  const r=parseInt(document.getElementById("trk-reps").value);
+  if(!w||!r) return;
+  if(!trkData[trkEx]) trkData[trkEx]=[];
+  const prev=trkData[trkEx].length?trkData[trkEx][trkData[trkEx].length-1].w:null;
+  trkData[trkEx].push({w,r,d:new Date().toISOString(),pr:prev===null||w>prev});
+  saveTrk();
+  document.getElementById("trk-weight").value="";
+  document.getElementById("trk-reps").value="";
+  if("vibrate" in navigator) navigator.vibrate(60);
+  renderTrk();
+}
+
+function renderTrk(){
+  const records=trkData[trkEx]||[];
+  const acc=ACS[C.accent]||ACS.emerald;
+
+  // PR banner
+  const pb=document.getElementById("trk-pr-banner");pb.innerHTML="";
+  if(records.length&&records[records.length-1].pr&&records.length>1){
+    const last=records[records.length-1];
+    pb.innerHTML=`<div class="pr-banner"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><div><div class="pr-text">🏆 שיא אישי חדש! ${last.w} ק\"ג</div><div class="pr-sub">${last.r} חזרות · ${trkEx}</div></div></div>`;
+  }
+
+  // Chart
+  const chartEl=document.getElementById("trk-chart");
+  const svgEl=document.getElementById("trk-svg");
+  if(records.length>=2){
+    chartEl.style.display="block";
+    const ws=records.map(r=>r.w);
+    const mn=Math.min(...ws),mx=Math.max(...ws);
+    const W=svgEl.parentElement.offsetWidth-32,H=100;
+    svgEl.setAttribute("width",W);
+    const px=i=>(i/(records.length-1))*W;
+    const py=v=>H-10-((v-mn)/(mx-mn||1))*(H-20);
+    const pts=records.map((r,i)=>`${px(i)},${py(r.w)}`).join(" ");
+    const fillPts=`0,${H} ${pts} ${W},${H}`;
+    svgEl.innerHTML=`
+      <defs><linearGradient id="cg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="${acc.a}" stop-opacity=".35"/><stop offset="100%" stop-color="${acc.a}" stop-opacity="0"/></linearGradient></defs>
+      <polygon points="${fillPts}" fill="url(#cg)"/>
+      <polyline points="${pts}" fill="none" stroke="${acc.a}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      ${records.map((r,i)=>`<circle cx="${px(i)}" cy="${py(r.w)}" r="4" fill="${acc.a}" opacity=".9"/>`).join("")}
+      <text x="0" y="${py(mn)-6}" font-size="10" fill="${acc.a}" opacity=".6">${mn}</text>
+      <text x="0" y="${py(mx)-6}" font-size="10" fill="${acc.a}">${mx}</text>
+    `;
+  } else { chartEl.style.display="none"; }
+
+  // History
+  const hist=document.getElementById("trk-hist");hist.innerHTML="";
+  if(!records.length){hist.innerHTML='<div style="text-align:center;color:var(--dim);font-size:13px;padding:24px 0">אין רשומות עדיין — הזן את הביצוע הראשון!</div>';return;}
+  [...records].reverse().forEach((r,i)=>{
+    const prev=i<records.length-1?records[records.length-1-i-1]:null;
+    const delta=prev?r.w-prev.w:null;
+    const deltaClass=delta===null?"same":delta>0?"up":delta<0?"down":"same";
+    const deltaText=delta===null?"":delta>0?"+"+delta:delta===0?"=":String(delta);
+    const date=new Date(r.d);
+    const dateStr=`${date.getDate()}/${date.getMonth()+1}`;
+    const d=document.createElement("div");
+    d.className="trk-hist-row lr";
+    d.style.animation=`cardIn .4s cubic-bezier(.22,1,.36,1) forwards`;
+    d.style.animationDelay=(i*.04)+"s";d.style.opacity="0";
+    d.innerHTML=`<span class="trk-hist-date">${dateStr}</span><span class="trk-hist-weight">${r.w} ק\"ג</span><span class="trk-hist-reps">${r.r} חזרות</span>${deltaText?`<span class="trk-hist-delta ${deltaClass}">${deltaText}</span>`:""}${r.pr&&i>0?'<span style="font-size:14px">🏆</span>':""}`;
+    hist.appendChild(d);
+  });
+}
+
+
+
+// ── TIP MODAL ─────────────────────────────────────────────────────────
+function showTip(el){
+  const name=el.dataset.name;
+  const focus=el.dataset.focus;
+  const steps=JSON.parse(el.dataset.steps||"[]");
+  const acc=ACS[C.accent]||ACS.emerald;
+
+  document.getElementById("tip-nm").textContent=name;
+  document.getElementById("tip-focus-txt").textContent=focus;
+
+  const ico=document.getElementById("tip-ico");
+  ico.style.background=`linear-gradient(135deg,${acc.a},${acc.b})`;
+  ico.style.boxShadow=`0 0 20px ${ha(acc.a,.38)}`;
+
+  const fs=document.getElementById("tip-focus");
+  fs.style.color=acc.a;
+  fs.style.borderColor=ha(acc.a,.3);
+
+  const sc=document.getElementById("tip-steps");
+  sc.innerHTML="";
+  steps.forEach((s,i)=>{
+    const d=document.createElement("div");
+    d.className="tip-step";
+    d.innerHTML=`<div class="tip-step-num" style="background:linear-gradient(135deg,${acc.a},${acc.b})">${i+1}</div><div class="tip-step-txt">${s}</div>`;
+    sc.appendChild(d);
+    setTimeout(()=>d.classList.add("show"),(i*80)+120);
+  });
+
+  document.getElementById("tip-bd").classList.add("open");
+}
+function closeTip(){document.getElementById("tip-bd").classList.remove("open");}
+function closeTipOut(e){if(e.target===document.getElementById("tip-bd"))closeTip();}
+
+// ── CUSTOMIZE ─────────────────────────────────────────────────────────
+function openCust(){renderCust();document.getElementById("cust-bd").classList.add("open");}
+function closeCust(){document.getElementById("cust-bd").classList.remove("open");}
+function closeCustOut(e){if(e.target===document.getElementById("cust-bd"))closeCust();}
+
+function renderCust(){
+  const acc=ACS[C.accent]||ACS.emerald;
+
+  // BG
+  const bg=document.getElementById("bg-grid");bg.innerHTML="";
+  Object.entries(BGS).forEach(([id,t])=>{
+    const on=C.bgTheme===id;
+    const b=document.createElement("button");
+    b.className="bg-btn"+(on?" sel":"");
+    b.style.background=`linear-gradient(135deg,${t.color},#06080e)`;
+    b.style.borderColor=on?"var(--a)":"rgba(255,255,255,.09)";
+    b.innerHTML=`<div class="bg-sw" style="background:${t.color}"></div><span class="bg-lb">${t.name}</span>${on?`<div class="bg-chk"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="3.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg></div>`:""}`;
+    b.onclick=()=>upd({bgTheme:id});
+    bg.appendChild(b);
+  });
+
+  // ACCENT
+  const ag=document.getElementById("ac-grid");ag.innerHTML="";
+  Object.entries(ACS).forEach(([id,p])=>{
+    const on=C.accent===id;
+    const b=document.createElement("button");
+    b.className="ac-btn"+(on?" sel":"");
+    b.style.background=on?`linear-gradient(135deg,${ha(p.a,.22)},${ha(p.b,.1)})`:"linear-gradient(135deg,rgba(255,255,255,.045),rgba(255,255,255,.01))";
+    b.style.borderColor=on?ha(p.a,.7):"rgba(255,255,255,.09)";
+    if(on)b.style.boxShadow=`0 0 20px ${ha(p.a,.28)}`;
+    b.innerHTML=`<div class="ac-sw" style="background:linear-gradient(135deg,${p.a},${p.b});box-shadow:0 2px 12px ${ha(p.a,.45)}">${on?`<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="3.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>`:""}</div><div><div class="ac-nm">${p.name}</div><div class="ac-dots"><span class="ac-dot" style="background:${p.a}"></span><span class="ac-dot" style="background:${p.b}"></span></div></div>`;
+    b.onclick=()=>upd({accent:id});
+    ag.appendChild(b);
+  });
+
+  // FONT
+  const fl=document.getElementById("fn-list");fl.innerHTML="";
+  Object.entries(FNS).forEach(([id,f])=>{
+    const on=C.font===id;
+    const b=document.createElement("button");
+    b.className="fn-btn"+(on?" sel":"");
+    b.style.fontFamily=f.s;
+    b.innerHTML=`<span class="fn-sm">${f.name}</span><div style="display:flex;align-items:center;gap:10px"><span class="fn-hi">Aa 0.0</span>${on?`<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--a)" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>`:""}</div>`;
+    b.onclick=()=>upd({font:id});
+    fl.appendChild(b);
+  });
+
+  // PREVIEW
+  const pi=document.getElementById("prev-ico");
+  pi.style.background=`linear-gradient(135deg,${acc.a},${acc.b})`;
+  pi.style.boxShadow=`0 0 22px ${ha(acc.a,.42)}`;
+  const pb=document.getElementById("prev-badge");
+  pb.style.color=acc.a;pb.style.borderColor=ha(acc.a,.38);pb.style.background=ha(acc.a,.14);
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────
+window.addEventListener("load",()=>{
+  applyA(C.accent);applyF(C.font);
+  R.setProperty("--bg",(BGS[C.bgTheme]||BGS.obsidian).color);
+  initOrm();
+  initTrkTabs();
+  renderTrk();
+  runSplash();
+  initVanta();
+});
+</script>
+</body>
+</html>
